@@ -23,28 +23,27 @@ public class Main {
 
     private static final String FILE_NAME = "price-list.txt";
     public static void main(String[] args) {
-
-        Map<String, List<OfferedService>> result = new HashMap<>();
+        var result = new HashMap<String, List<OfferedService>>();
 
         var chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("headless");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        var driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://onlinesim.ru/price-list");
         closeCookiesPopup(driver);
 
-        List<WebElement> elements = driver.findElements(By.className("country-name"));
+        var elements = driver.findElements(By.className("country-name"));
         for (WebElement element : elements) {
             var countryName = element.getText();
             System.out.println("Getting price list for " + countryName + "...");
             element.click();
-            Document document = Jsoup.parse(driver.getPageSource());
-            Elements services = document.getElementsByClass("service-block");
+            var document = Jsoup.parse(driver.getPageSource());
+            var services = document.getElementsByClass("service-block");
 
-            List<OfferedService> offeredServiceList = new ArrayList<>();
+            var offeredServiceList = new ArrayList<OfferedService>();
             for (Element service : services) {
-                String serviceName = service.selectXpath(".//*[@class='price-name']").get(0).text();
-                String servicePrice = service.selectXpath(".//*[@class='price-text']").get(0).text().replaceAll("[^-\\d.]", "");
+                var serviceName = service.selectXpath(".//*[@class='price-name']").get(0).text();
+                var servicePrice = service.selectXpath(".//*[@class='price-text']").get(0).text().replaceAll("[^-\\d.]", "");
                 offeredServiceList.add(new OfferedService(serviceName, Double.valueOf(servicePrice)));
             }
             result.put(countryName, offeredServiceList);
@@ -55,8 +54,8 @@ public class Main {
 
     public static void closeCookiesPopup(WebDriver driver) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement cookiePopup = wait.until(ExpectedConditions.elementToBeClickable(By.id("termsbox_close")));
+            var wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            var cookiePopup = wait.until(ExpectedConditions.elementToBeClickable(By.id("termsbox_close")));
             cookiePopup.click();
             System.out.println("Popup closed");
         } catch (Exception e) {
