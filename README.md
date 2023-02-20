@@ -3,6 +3,6 @@ Task: to parse servises' prices from http://onlinesim.ru/price-list and write re
 
 To run application:
 
-Clone project
-Run "mvn package"
-Run jar with "java -jar target/test-task-2-1.0-SNAPSHOT-shaded.jar"
+1. Clone project
+2. Run "mvn package"
+3. Run jar with "java -jar target/test-task-2-1.0-SNAPSHOT-shaded.jar"
